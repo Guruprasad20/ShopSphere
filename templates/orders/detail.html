@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Order #{{ order.id }} — ShopSphere{% endblock %}
+{% block content %}
+<section class="page-hero"><div class="container"><span class="eyebrow">ORDER TRACKING</span><h1>Order #{{ order.id }}</h1><p>Placed {{ order.created_at|date:"d M Y, h:i A" }}</p></div></section>
+<section class="section"><div class="container">
+<div class="panel order-tracker">
+  <div class="tracker-head"><div><span class="eyebrow">CURRENT STATUS</span><h2>{{ order.get_status_display }}</h2></div><span class="status status-{{ order.status|lower }}">{{ order.get_status_display }}</span></div>
+  <div class="timeline">
+    {% for code,label in order.Status.choices %}
+      {% if code != "CANCELLED" %}<div class="timeline-step {% if order.status == code %}current{% endif %} {% if order.status == "DELIVERED" or code == "PENDING" or code == "CONFIRMED" and order.status in "PROCESSING,SHIPPED,DELIVERED" or code == "PROCESSING" and order.status in "SHIPPED,DELIVERED" or code == "SHIPPED" and order.status == "DELIVERED" %}done{% endif %}"><span class="dot">{% if order.status == code or code == "PENDING" or code == "CONFIRMED" and order.status in "PROCESSING,SHIPPED,DELIVERED" or code == "PROCESSING" and order.status in "SHIPPED,DELIVERED" or code == "SHIPPED" and order.status == "DELIVERED" %}✓{% else %}{{ forloop.counter }}{% endif %}</span><strong>{{ label }}</strong></div>{% endif %}
+    {% endfor %}
+  </div>
+</div>
+<div class="checkout-grid">
+<div class="panel"><h2>Items</h2>
+{% for item in order.items.all %}
+<div class="cart-item compact">
+  <div class="cart-thumb">{% if item.product.image %}<img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">{% else %}<span>◈</span>{% endif %}</div>
+  <div class="cart-info"><h3><a href="{% url 'product_detail' item.product.slug %}">{{ item.product.name }}</a></h3><p>₹{{ item.price|floatformat:2 }} × {{ item.quantity }}</p>
+  {% if order.status == 'DELIVERED' %}<a class="btn btn-secondary btn-small" href="{% url 'product_detail' item.product.slug %}#reviews">★ Review product</a>{% endif %}</div><strong>₹{{ item.subtotal|floatformat:2 }}</strong>
+</div>{% endfor %}</div>
+<aside class="summary"><h2>Delivery</h2><p><strong>{{ order.shipping_name }}</strong></p><p>{{ order.shipping_phone }}</p><p>{{ order.shipping_address }}<br>{{ order.shipping_city }}, {{ order.shipping_state }} — {{ order.shipping_postal_code }}</p><hr><div class="total"><span>Total</span><strong>₹{{ order.total_amount|floatformat:2 }}</strong></div></aside>
+</div></div></section>
+{% endblock %}

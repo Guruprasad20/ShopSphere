@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Cart — ShopSphere{% endblock %}
+{% block content %}
+<section class="page-hero"><div class="container"><span class="eyebrow">YOUR BAG</span><h1>Shopping cart</h1><p>{{ cart.total_items }} item{{ cart.total_items|pluralize }} ready for checkout.</p></div></section>
+<section class="section"><div class="container checkout-grid">
+<div>
+{% for item in items %}
+<div class="cart-item"><div class="cart-thumb">{% if item.product.image %}<img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">{% else %}◈{% endif %}</div><div class="cart-info"><h3>{{ item.product.name }}</h3><p>₹{{ item.product.price|floatformat:2 }} each</p><form method="post" action="{% url 'update_cart' item.id %}" class="qty-form">{% csrf_token %}<input type="number" min="0" max="{{ item.product.stock }}" name="quantity" value="{{ item.quantity }}"><button class="btn btn-small">Update</button></form></div><strong>₹{{ item.subtotal|floatformat:2 }}</strong><form method="post" action="{% url 'remove_from_cart' item.id %}">{% csrf_token %}<button class="icon-button" title="Remove">×</button></form></div>
+{% empty %}<div class="empty"><h2>Your cart is empty</h2><p>Add products to continue.</p><a class="btn btn-primary" href="{% url 'product_list' %}">Shop now</a></div>{% endfor %}
+</div>
+{% if items %}<aside class="summary"><h2>Summary</h2><div><span>Items</span><strong>{{ cart.total_items }}</strong></div><div><span>Subtotal</span><strong>₹{{ cart.total_price|floatformat:2 }}</strong></div><div><span>Shipping</span><strong>Free</strong></div><hr><div class="total"><span>Total</span><strong>₹{{ cart.total_price|floatformat:2 }}</strong></div><a class="btn btn-primary btn-full" href="{% url 'checkout' %}">Proceed to checkout</a></aside>{% endif %}
+</div></section>
+{% endblock %}

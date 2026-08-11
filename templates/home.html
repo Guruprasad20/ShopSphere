@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}ShopSphere — Shop Smarter{% endblock %}
+{% block content %}
+<section class="hero">
+    <div class="container hero-grid">
+        <div>
+            <span class="eyebrow">NEXT-GENERATION SHOPPING</span>
+            <h1>Everything you need.<br><span>One smarter store.</span></h1>
+            <p>Discover curated products, secure accounts, simple checkout and transparent order tracking — all powered by a modern Django stack.</p>
+            <div class="hero-actions">
+                <a class="btn btn-primary" href="{% url 'product_list' %}">Explore products →</a>
+                {% if not user.is_authenticated %}<a class="btn btn-secondary" href="{% url 'register' %}">Join ShopSphere</a>{% endif %}
+            </div>
+        </div>
+        <div class="hero-card">
+            <div class="floating-stat"><strong>Fast</strong><span>Simple checkout</span></div>
+            <div class="hero-art">🛍️</div>
+            <div class="floating-stat"><strong>Secure</strong><span>Django authentication</span></div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+<div class="container">
+    <div class="section-head"><div><span class="eyebrow">CATEGORIES</span><h2>Shop by category</h2></div><a href="{% url 'product_list' %}">View all →</a></div>
+    <div class="category-grid">
+        {% for category in categories %}
+        <a class="category-card" href="{% url 'product_list' %}?category={{ category.id }}">
+            <span>{{ forloop.counter|stringformat:"02d" }}</span><h3>{{ category.name }}</h3><p>{{ category.description|default:"Explore our latest selection."|truncatechars:70 }}</p>
+        </a>
+        {% empty %}
+        <div class="empty">Run <code>python manage.py seed_demo</code> to load demo products.</div>
+        {% endfor %}
+    </div>
+</div>
+</section>
+
+<section class="section muted">
+<div class="container">
+    <div class="section-head"><div><span class="eyebrow">FEATURED</span><h2>Popular picks</h2></div><a href="{% url 'product_list' %}">Browse catalog →</a></div>
+    <div class="product-grid">
+    {% for product in featured_products %}
+        {% include "products/_card.html" with product=product %}
+    {% empty %}
+        <div class="empty">No products yet.</div>
+    {% endfor %}
+    </div>
+</div>
+</section>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard — ShopSphere{% endblock %}
+{% block content %}
+<section class="page-hero"><div class="container"><div class="eyebrow">OPERATIONS CENTER</div><h1>Store <span>Dashboard</span></h1><p>Monitor revenue, orders, inventory and customer activity.</p></div></section>
+<section class="section"><div class="container">
+<div class="stat-grid">
+<div class="stat-card"><span>Revenue</span><strong>₹{{ revenue|floatformat:2 }}</strong><small>Excluding cancelled orders</small></div>
+<div class="stat-card"><span>Orders</span><strong>{{ orders_count }}</strong><small>All-time orders</small></div>
+<div class="stat-card"><span>Customers</span><strong>{{ users_count }}</strong><small>Registered profiles</small></div>
+<div class="stat-card"><span>Products</span><strong>{{ products_count }}</strong><small>{{ reviews_count }} reviews</small></div>
+</div>
+<div class="dashboard-grid">
+<div class="panel"><div class="section-head"><div><div class="eyebrow">RECENT</div><h2>Latest orders</h2></div></div>
+{% for order in recent_orders %}<a class="order-row" href="/admin/orders/order/{{ order.id }}/change/"><div><b>#{{ order.id }} · {{ order.user.username }}</b><span>{{ order.created_at|date:"d M Y, H:i" }}</span></div><div><strong>₹{{ order.total_amount }}</strong><span class="status status-{{ order.status|lower }}">{{ order.get_status_display }}</span></div></a>{% empty %}<div class="empty">No orders yet.</div>{% endfor %}
+</div>
+<div class="panel"><div class="section-head"><div><div class="eyebrow">INVENTORY</div><h2>Low stock</h2></div></div>
+{% for p in low_stock %}<div class="inventory-row"><div><b>{{ p.name }}</b><span>{{ p.category.name }}</span></div><strong class="{% if p.stock == 0 %}danger{% endif %}">{{ p.stock }} left</strong></div>{% empty %}<div class="empty">Inventory is healthy.</div>{% endfor %}</div>
+</div>
+<div class="quick-links"><a class="btn btn-primary" href="/admin/">Open Django Admin</a><a class="btn btn-secondary" href="{% url 'api_docs' %}">API Documentation</a><a class="btn btn-secondary" href="{% url 'product_list' %}">View Store</a></div>
+</div></section>
+{% endblock %}

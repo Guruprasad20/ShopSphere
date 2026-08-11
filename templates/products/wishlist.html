@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}Wishlist — ShopSphere{% endblock %}
+{% block content %}
+<section class="page-hero"><div class="container"><div class="eyebrow">PERSONAL COLLECTION</div><h1>My <span>Wishlist</span></h1><p>Save products you want to revisit later.</p></div></section>
+<section class="section"><div class="container"><div class="product-grid">
+{% for item in items %}{% include "products/_card.html" with product=item.product %}{% empty %}<div class="empty">Your wishlist is empty. <a href="{% url 'product_list' %}">Explore products →</a></div>{% endfor %}
+</div></div></section>
+{% endblock %}

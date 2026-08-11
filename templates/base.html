@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ShopSphere{% endblock %}</title>
+    <meta name="description" content="ShopSphere — modern full-stack e-commerce platform.">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<header class="site-header">
+    <div class="container nav-wrap">
+        <a class="brand" href="{% url 'home' %}"><span class="brand-mark">S</span> ShopSphere</a>
+        <button class="nav-toggle" aria-label="Toggle menu">☰</button>
+        <nav class="nav">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'product_list' %}">Shop</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'order_list' %}">Orders</a>
+                <a href="{% url 'wishlist' %}">Wishlist</a>
+                <a href="{% url 'profile' %}">Profile</a>
+                <a class="cart-link" href="{% url 'cart_detail' %}">Cart <span class="cart-count">{{ cart_item_count }}</span></a>
+                <form method="post" action="{% url 'logout' %}" class="inline-form">{% csrf_token %}<button class="link-button">Logout</button></form>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+                <a class="nav-cta" href="{% url 'register' %}">Create account</a>
+            {% endif %}
+        </nav>
+    </div>
+</header>
+
+<main>
+{% if messages %}
+<div class="container messages">
+    {% for message in messages %}
+        <div class="message {{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
+{% block content %}{% endblock %}
+</main>
+
+<footer class="footer">
+    <div class="container footer-grid">
+        <div><h3>ShopSphere</h3><p>A professional Django e-commerce project built for learning and portfolio use.</p></div>
+        <div><h4>Explore</h4><a href="{% url 'product_list' %}">Products</a><a href="{% url 'home' %}">Home</a></div>
+        <div><h4>Developer</h4>{% if user.is_staff %}<a href="/dashboard/">Dashboard</a>{% endif %}<a href="/admin/">Admin</a>
+    <div class="container footer-bottom"><p class="credit"> &copy; copyright @ <?= date('Y'); ?> by <span>ShopSphere</span> | all rights reserved! </p></div>
+</footer>
+<script src="{% static 'js/app.js' %}"></script>
+</body>
+</html>

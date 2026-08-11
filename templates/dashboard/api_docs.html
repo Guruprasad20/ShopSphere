@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}API Documentation — ShopSphere{% endblock %}
+{% block content %}
+<section class="page-hero"><div class="container"><div class="eyebrow">DEVELOPER CENTER</div><h1>REST API <span>Documentation</span></h1><p>Endpoints available for portfolio demonstrations and integrations.</p></div></section>
+<section class="section"><div class="container api-docs">
+<div class="api-card"><span class="method get">GET</span><div><h3>/api/products/</h3><p>List active products. Supports <code>?q=phone</code> and <code>?category=1</code>.</p></div></div>
+<div class="api-card"><span class="method get">GET</span><div><h3>/api/products/{id}/</h3><p>Retrieve a single product.</p></div></div>
+<div class="api-card"><span class="method get">GET</span><div><h3>/api/orders/my/</h3><p>Authenticated user's order history. Requires Django session authentication.</p></div></div>
+<div class="api-card"><span class="method get">GET</span><div><h3>/admin/</h3><p>Protected Django administration interface for product, user and order management.</p></div></div>
+</div></section>
+{% endblock %}

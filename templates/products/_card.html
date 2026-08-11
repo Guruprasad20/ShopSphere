@@ -1,0 +1,9 @@
+<article class="product-card">
+<a class="product-image" href="{% url 'product_detail' product.slug %}">{% if product.image %}<img src="{{ product.image.url }}" alt="{{ product.name }}">{% else %}<span>◈</span>{% endif %}</a>
+<div class="product-body">
+<div class="product-meta"><span>{{ product.category.name }}</span>{% if product.stock %}<b>In stock</b>{% else %}<b class="out">Out of stock</b>{% endif %}</div>
+<h3><a href="{% url 'product_detail' product.slug %}">{{ product.name }}</a></h3>
+<p>{{ product.description|truncatechars:90 }}</p>
+<div class="product-bottom"><strong>₹{{ product.price|floatformat:2 }}</strong><span>★ {{ product.rating }}</span></div>
+{% if user.is_authenticated %}<form method="post" action="{% url 'toggle_wishlist' product.id %}" class="card-action">{% csrf_token %}<input type="hidden" name="next" value="{{ request.path }}"><button class="btn btn-secondary btn-small" type="submit">♡ Save</button></form>{% endif %}
+</div></article>

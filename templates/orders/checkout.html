@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Checkout — ShopSphere{% endblock %}
+{% block content %}
+<section class="page-hero"><div class="container"><span class="eyebrow">CHECKOUT</span><h1>Complete your order.</h1><p>Enter delivery details. No real payment credentials are required for this demo.</p></div></section>
+<section class="section"><div class="container checkout-grid"><div class="panel"><h2>Delivery details</h2><form method="post">{% csrf_token %}{% for field in form %}<label>{{ field.label }}{{ field }}{% for error in field.errors %}<small class="error">{{ error }}</small>{% endfor %}</label>{% endfor %}<button class="btn btn-primary btn-full">Place order · ₹{{ total|floatformat:2 }}</button></form></div><aside class="summary"><h2>Order summary</h2>{% for item in items %}<div><span>{{ item.product.name }} × {{ item.quantity }}</span><strong>₹{{ item.subtotal|floatformat:2 }}</strong></div>{% endfor %}<hr><div class="total"><span>Total</span><strong>₹{{ total|floatformat:2 }}</strong></div></aside></div></section>
+{% endblock %}
