@@ -12,3 +12,6 @@ staticfiles/
 
 statixfiles/
 node_modules/
+
+.vercel
+.env*
