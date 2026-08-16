@@ -13,10 +13,6 @@ ALLOWED_HOSTS = [
     "shopsphere-0bsn.onrender.com",
 ]
 
-CSRF_TRUSTED_ORIGINS = [
-    "https://shopsphere-0bsn.onrender.com",
-]
-
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",

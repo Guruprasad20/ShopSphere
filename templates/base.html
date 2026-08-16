@@ -43,10 +43,32 @@
 
 <footer class="footer">
     <div class="container footer-grid">
-        <div><h3>ShopSphere</h3><p>A professional Django e-commerce project built for learning and portfolio use.</p></div>
-        <div><h4>Explore</h4><a href="{% url 'product_list' %}">Products</a><a href="{% url 'home' %}">Home</a></div>
-        <div><h4>Developer</h4>{% if user.is_staff %}<a href="/dashboard/">Dashboard</a>{% endif %}<a href="/admin/">Admin</a>
-    <div class="container footer-bottom"><p class="credit"> &copy; copyright @ <?= date('Y'); ?> by <span>ShopSphere</span> | all rights reserved! </p></div>
+        <div>
+            <h3>ShopSphere</h3>
+            <p>A professional Django e-commerce project built for learning and portfolio use.</p>
+        </div>
+
+        <div>
+            <h4>Explore</h4>
+            <a href="{% url 'product_list' %}">Products</a>
+            <a href="{% url 'home' %}">Home</a>
+        </div>
+
+        <div>
+            <h4>Developer</h4>
+            {% if user.is_staff %}
+                <a href="/dashboard/">Dashboard</a>
+            {% endif %}
+            <a href="/admin/">Admin</a>
+        </div>
+    </div>
+
+    <div class="container footer-bottom">
+        <p class="credit">
+            &copy; copyright @ {% now "Y" %} by
+            <span>ShopSphere</span> | all rights reserved!
+        </p>
+    </div>
 </footer>
 <script src="{% static 'js/app.js' %}"></script>
 </body>
