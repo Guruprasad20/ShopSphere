@@ -8,11 +8,14 @@ load_dotenv(BASE_DIR / ".env")
 SECRET_KEY = os.getenv("SECRET_KEY", "dev-only-change-me")
 DEBUG = os.getenv("DEBUG", "True").lower() == "true"
 ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1',
-    '.onrender.com',
+    "localhost",
+    "127.0.0.1",
+    "shopsphere-0bsn.onrender.com",
 ]
-DEBUG = False
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://shopsphere-0bsn.onrender.com",
+]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
